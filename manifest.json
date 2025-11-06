@@ -1,9 +1,0 @@
-{
-  "name": "Máy tính Chu kỳ Ngủ",
-  "short_name": "Chu kỳ Ngủ",
-  "start_url": "index.html",
-  "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#6c63ff",
-  "icons": []
-}
