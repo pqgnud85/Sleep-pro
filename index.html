@@ -1,0 +1,301 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  
+  <meta charset=\"UTF-8\" />
+  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, viewport-fit=cover\" />
+  <link rel=\"manifest\" href=\"manifest.json\" />
+  <link rel=\"apple-touch-icon\" href=\"apple-touch-icon.png\" />
+  <meta name=\"apple-mobile-web-app-capable\" content=\"yes\" />
+  <meta name=\"apple-mobile-web-app-status-bar-style\" content=\"black-translucent\" />
+  <meta name=\"theme-color\" content=\"#6c63ff\" />
+  <style>
+    :root { --primary:#6c63ff; --primary-dark:#524bdf; --bg:#f7f8fc; --card:#fff; --text:#222; --muted:#67728a; --accent:#00bfa6; --danger:#ff5d5d; --ok:#00b37d; --warn:#f0a500; --n1:#2296f3; --n2:#f0a500; --n3:#ff5d5d; --rem:#9c27b0; }
+    *{box-sizing:border-box}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,\"Helvetica Neue\",Arial; background:var(--bg); color:var(--text); margin:0; -webkit-font-smoothing:antialiased}
+    header{background:linear-gradient(135deg,var(--primary),#9c92ff); color:#fff; padding:24px 16px; text-align:center; box-shadow:0 6px 16px rgba(0,0,0,.12)}
+    main{max-width:980px; margin:24px auto; padding:0 16px 40px}
+    .card{background:var(--card); border-radius:14px; box-shadow:0 8px 24px rgba(0,0,0,.08); overflow:hidden}
+    .section-card{background:var(--card); border-radius:14px; box-shadow:0 8px 24px rgba(0,0,0,.08); padding:18px; margin-top:18px}
+    .tabs{display:flex; border-bottom:1px solid #e8eaf1; background:#fafbff}
+    .tab{flex:1; text-align:center; padding:16px 12px; cursor:pointer; font-weight:600; color:var(--muted); display:flex; align-items:center; justify-content:center; gap:8px; min-height:48px}
+    .tab.active{color:var(--primary); background:#fff; border-bottom:2px solid var(--primary)}
+    .pane{padding:20px; display:none}
+    .pane.active{display:block}
+    .hero-input{text-align:center; margin:8px 0 12px}
+    .hero-input label{font-size:1rem; color:var(--muted)}
+    .hm-wrap{margin-top:12px; display:flex; justify-content:center; align-items:center; gap:10px}
+    .hm{display:flex; align-items:center; gap:6px}
+    .hm input{width:100px; font-size:2rem; padding:16px 18px; text-align:center; border:2px solid #e3e6ef; border-radius:12px; outline:none; background:#fbfbff}
+    .hm input:focus{border-color:var(--primary); box-shadow:0 0 0 8px rgba(108,99,255,.12)}
+    .colon{font-size:2rem; font-weight:700; color:#444; user-select:none}
+    .time-help{color:var(--muted); font-size:.95rem; margin-top:8px; text-align:center}
+    .controls{display:grid; grid-template-columns:1fr; gap:12px; margin-top:10px}
+    .button{padding:16px 18px; border:none; border-radius:12px; font-weight:700; cursor:pointer; min-height:48px}
+    .btn-primary{background:var(--primary); color:#fff}
+    .btn-primary:hover{background:var(--primary-dark)}
+    .toggle{display:flex; align-items:center; gap:8px; justify-content:center; color:var(--muted); font-size:1rem}
+    .results{margin-top:16px}
+    .recommend{background:#f2f7ff; border:1px solid #d7e3ff; padding:16px; border-radius:12px; display:flex; align-items:center; gap:12px; margin-bottom:16px}
+    .badge{background:var(--accent); color:#fff; padding:8px 10px; border-radius:999px; font-size:.9rem; font-weight:700}
+    .list{display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:10px}
+    .list .item{background:#f8f9ff; border:1px solid #e3e6ef; border-radius:10px; padding:14px; text-align:center; font-weight:700; color:#333}
+    .item small{display:block; color:var(--muted); font-weight:600; margin-top:4px}
+    .rows{width:100%; border-collapse:collapse; margin-top:12px}
+    .rows th, .rows td{border-bottom:1px solid #eef1f7; padding:12px 10px; text-align:left; vertical-align:top}
+    .rows th{color:#556; font-size:1rem}
+    .stage{display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; color:#fff; font-size:.9rem; font-weight:700}
+    .stage-n1{background:#2296f3}
+    .stage-n2{background:#f0a500}
+    .stage-n3{background:#ff5d5d}
+    .stage-rem{background:#9c27b0}
+    .stage-end{background:#00b37d}
+    .tag{padding:4px 10px; border-radius:999px; font-size:.9rem; font-weight:700; color:#fff; display:inline-block}
+    .tag-good{background:#00b37d}
+    .tag-mid{background:#f0a500}
+    .tag-bad{background:#ff5d5d}
+    .evalBox{font-size:1rem; color:#334}
+    .evalBox p{margin:8px 0}
+    footer{text-align:center; color:#67728a; padding:24px 8px}
+    *{-webkit-tap-highlight-color: transparent}
+    .scroll{overflow-x:auto; -webkit-overflow-scrolling: touch}
+  </style>
+
+  <title>Máy tính Chu kỳ Ngủ – PRO v6.1</title>
+</head>
+<body>
+  <header>
+    <h1>🛌 Máy tính Chu kỳ Ngủ – PRO v6.1</h1>
+    <p>PWA – tối ưu cho iPhone: thêm vào màn hình chính, dùng offline, chạm dễ.</p>
+  </header>
+  <main>
+    <div class="card">
+      <div class="tabs">
+        <div class="tab active" data-tab="wake">⏰ Tính giờ <strong>thức dậy</strong></div>
+        <div class="tab" data-tab="bed">🌙 Tính giờ <strong>đi ngủ</strong></div>
+      </div>
+      <div class="pane active" id="pane-wake">
+        <div class="hero-input">
+          <label>Nhập <strong>giờ đi ngủ</strong> (24h – HH:MM)</label>
+          <div class="hm-wrap">
+            <div class="hm"><input id="bedHH" maxlength="2" inputmode="numeric" placeholder="23" aria-label="Giờ (00–23)"></div>
+            <div class="colon">:</div>
+            <div class="hm"><input id="bedMM" maxlength="2" inputmode="numeric" placeholder="15" aria-label="Phút (00–59)"></div>
+          </div>
+          <div class="time-help">Chỉ nhập số: <b>00–23</b> cho giờ, <b>00–59</b> cho phút</div>
+        </div>
+        <div class="controls">
+          <button class="button btn-primary" onclick="calcWakeFromBed()">💡 Tính giờ thức dậy</button>
+          <label class="toggle"><input type="checkbox" id="includeLatencyBed" checked> Bao gồm ~15’ chìm vào giấc</label>
+        </div>
+        <div class="results" id="resultsBed"></div>
+      </div>
+      <div class="pane" id="pane-bed">
+        <div class="hero-input">
+          <label>Nhập <strong>giờ thức dậy</strong> (24h – HH:MM)</label>
+          <div class="hm-wrap">
+            <div class="hm"><input id="wakeHH" maxlength="2" inputmode="numeric" placeholder="06" aria-label="Giờ (00–23)"></div>
+            <div class="colon">:</div>
+            <div class="hm"><input id="wakeMM" maxlength="2" inputmode="numeric" placeholder="30" aria-label="Phút (00–59)"></div>
+          </div>
+          <div class="time-help">Chỉ nhập số: <b>00–23</b> cho giờ, <b>00–59</b> cho phút</div>
+        </div>
+        <div class="controls">
+          <button class="button btn-primary" onclick="calcSleepFromWake()">💤 Tính giờ đi ngủ</button>
+          <label class="toggle"><input type="checkbox" id="includeLatencyWake" checked> Bao gồm ~15’ chìm vào giấc</label>
+        </div>
+        <div class="results" id="resultsWake"></div>
+      </div>
+    </div>
+
+    <div class="section-card scroll">
+      <h3>📝 Ghi nhận giấc ngủ (đánh giá theo giai đoạn)</h3>
+      <div class="hero-input">
+        <label>Đi ngủ (24h – HH:MM)</label>
+        <div class="hm-wrap">
+          <div class="hm"><input id="logBedHH" maxlength="2" inputmode="numeric" placeholder="22"></div>
+          <div class="colon">:</div>
+          <div class="hm"><input id="logBedMM" maxlength="2" inputmode="numeric" placeholder="45"></div>
+        </div>
+      </div>
+      <div class="hero-input" style="margin-top:6px">
+        <label>Thức dậy (24h – HH:MM)</label>
+        <div class="hm-wrap">
+          <div class="hm"><input id="logWakeHH" maxlength="2" inputmode="numeric" placeholder="07"></div>
+          <div class="colon">:</div>
+          <div class="hm"><input id="logWakeMM" maxlength="2" inputmode="numeric" placeholder="15"></div>
+        </div>
+        <div class="toggle" style="margin-top:8px">
+          <input type="checkbox" id="logIncludeLatency" checked> <span>Trừ ~15’ để lấy <b>thực ngủ</b></span>
+        </div>
+      </div>
+      <div class="controls">
+        <button class="button btn-primary" onclick="addLog()">➕ Ghi nhận</button>
+      </div>
+
+      <table class="rows" id="logTable">
+        <thead>
+          <tr>
+            <th>Đi ngủ</th>
+            <th>Thức dậy</th>
+            <th>Thực ngủ</th>
+            <th>Chu kỳ</th>
+            <th>Giai đoạn thức dậy</th>
+            <th>Đánh giá & tư vấn</th>
+            <th>Thao tác</th>
+          </tr>
+        </thead>
+        <tbody id="logBody"></tbody>
+      </table>
+    </div>
+  </main>
+  <footer>Thêm vào Màn hình chính trên iPhone để dùng như app (Share → Add to Home Screen)</footer>
+  
+  <script>
+    if('serviceWorker' in navigator){ navigator.serviceWorker.register('service-worker.js'); }
+    const cycleMin = 90, latencyMinDefault = 15;
+    function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
+    function pad2(n){ return String(n).padStart(2,'0'); }
+    function attachHMBehavior(hhEl, mmEl, maxH=23){
+      function cleanDigits(s){ return s.replace(/\D/g,'').slice(0,2); }
+      function onInput(e){ const t=e.target; t.value = cleanDigits(t.value); if(t===hhEl && t.value.length===2) mmEl.focus(); }
+      function onBlur(e){ const t=e.target; if(!t.value) return; let v=parseInt(t.value,10); v=isNaN(v)?0:v; if(t===hhEl) v=clamp(v,0,maxH); else v=clamp(v,0,59); t.value=pad2(v); }
+      function onKeyDown(e){ if(e.key===':'&&e.target===hhEl){ e.preventDefault(); mmEl.focus(); } }
+      hhEl.addEventListener('input', onInput); mmEl.addEventListener('input', onInput);
+      hhEl.addEventListener('blur', onBlur); mmEl.addEventListener('blur', onBlur);
+      hhEl.addEventListener('keydown', onKeyDown); mmEl.addEventListener('keydown', onKeyDown);
+    }
+    function parseHM(hhEl, mmEl){
+      const hh = parseInt(hhEl.value||hhEl.placeholder||'0',10);
+      const mm = parseInt(mmEl.value||mmEl.placeholder||'0',10);
+      if(isNaN(hh) || isNaN(mm) || hh<0 || hh>23 || mm<0 || mm>59) return null;
+      const d = new Date(); d.setHours(hh, mm, 0, 0); return d;
+    }
+    function fmt24(d){ return d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', hour12:false}); }
+    function minsToHM(min){ const h=Math.floor(min/60), m=min%60; return `${h}h ${pad2(m)}’`; }
+    function stageFromRemainder(r){
+      if(r === 0) return {code:'end', name:'Cuối chu kỳ', color:'stage-end', severity:'good', note:'Tối ưu'};
+      if(r <= 14) return {code:'n1', name:'N1 (nhẹ)', color:'stage-n1', severity:'good', note:'Dễ tỉnh'};
+      if(r <= 44) return {code:'n2', name:'N2 (ổn định)', color:'stage-n2', severity:'mid', note:'Hơi lơ mơ'};
+      if(r <= 74) return {code:'n3', name:'N3 (ngủ sâu)', color:'stage-n3', severity:'bad', note:'Quán tính ngủ cao'};
+      return {code:'rem', name:'REM', color:'stage-rem', severity:'mid', note:'Mơ dở dang'};
+    }
+  </script>
+
+  <script>
+    const tabs = document.querySelectorAll('.tab');
+    const panes = { wake: document.getElementById('pane-wake'), bed: document.getElementById('pane-bed') };
+    tabs.forEach(t => t.addEventListener('click', () => {
+      tabs.forEach(x => x.classList.remove('active')); t.classList.add('active');
+      const k = t.dataset.tab; Object.values(panes).forEach(p => p.classList.remove('active')); panes[k].classList.add('active');
+    }));
+    function calcWakeFromBed(){
+      const includeLatency = document.getElementById('includeLatencyBed').checked;
+      const base = parseHM(document.getElementById('bedHH'), document.getElementById('bedMM'));
+      if(!base){ alert('Vui lòng nhập giờ đi ngủ hợp lệ (HH:MM)'); return; }
+      const latency = includeLatency ? latencyMinDefault : 0;
+      const times = [];
+      for(let cycles=3; cycles<=6; cycles++){
+        const t = new Date(base.getTime() + (cycles*cycleMin + latency)*60000);
+        times.push({t, cycles});
+      }
+      const rec = times.find(x=>x.cycles===5) || times[Math.floor(times.length/2)];
+      renderResults('resultsBed', '⏰ Thức dậy', times, rec);
+    }
+    function calcSleepFromWake(){
+      const includeLatency = document.getElementById('includeLatencyWake').checked;
+      const base = parseHM(document.getElementById('wakeHH'), document.getElementById('wakeMM'));
+      if(!base){ alert('Vui lòng nhập giờ thức dậy hợp lệ (HH:MM)'); return; }
+      const latency = includeLatency ? latencyMinDefault : 0;
+      const times = [];
+      for(let cycles=6; cycles>=3; cycles--){
+        const t = new Date(base.getTime() - (cycles*cycleMin + latency)*60000);
+        times.push({t, cycles});
+      }
+      const rec = times.find(x=>x.cycles===5) || times[Math.floor(times.length/2)];
+      renderResults('resultsWake', '🌙 Đi ngủ', times, rec);
+    }
+    function renderResults(targetId, label, times, rec){
+      const box = document.getElementById(targetId);
+      const recHtml = `<div class=\"recommend\"><span class=\"badge\">Khuyến nghị</span><div>${label} lúc <strong>${fmt24(rec.t)}</strong> · <strong>${rec.cycles}</strong> chu kỳ (~${(rec.cycles*1.5).toFixed(1)} giờ)</div></div>`;
+      let listHtml = '<div class="list">';
+      times.forEach(x=>{ listHtml += `<div class=\"item\">${fmt24(x.t)}<small>${x.cycles} chu kỳ · ~${(x.cycles*1.5).toFixed(1)} giờ</small></div>`; });
+      listHtml += '</div>';
+      box.innerHTML = '<h3>📋 Kết quả</h3>' + recHtml + listHtml;
+    }
+
+    // Logger
+    const STORAGE_KEY = 'sleepLogsV3';
+    function addLog(){
+      const bed = parseHM(document.getElementById('logBedHH'), document.getElementById('logBedMM'));
+      const wake = parseHM(document.getElementById('logWakeHH'), document.getElementById('logWakeMM'));
+      if(!bed || !wake){ alert('Vui lòng nhập giờ đi ngủ/thức dậy hợp lệ (HH:MM)'); return; }
+      let bedT = new Date(bed); let wakeT = new Date(wake);
+      if(wakeT <= bedT) wakeT.setDate(wakeT.getDate()+1);
+      const includeLatency = document.getElementById('logIncludeLatency').checked;
+      const latency = includeLatency ? latencyMinDefault : 0;
+      const grossMin = Math.round((wakeT - bedT)/60000);
+      const effectiveMin = Math.max(grossMin - latency, 0);
+      const cyclesExact = effectiveMin / cycleMin;
+      const cyclesRounded = Math.round(cyclesExact*10)/10;
+      const cyclesCompleted = Math.floor(cyclesExact);
+      let remainder = effectiveMin % cycleMin;
+      const stage = stageFromRemainder(remainder);
+      const atCycle = remainder === 0 ? cyclesCompleted : cyclesCompleted + 1;
+      const earlierAdj = remainder; const laterAdj = cycleMin - remainder;
+      const earlierTime = new Date(wakeT.getTime() - earlierAdj*60000);
+      const laterTime = new Date(wakeT.getTime() + laterAdj*60000);
+      const nearerIsEarlier = earlierAdj <= laterAdj;
+      const primaryAdjText = nearerIsEarlier ? `Dậy sớm hơn ~${earlierAdj}’ (${fmt24(earlierTime)})` : `Dậy muộn hơn ~${laterAdj}’ (${fmt24(laterTime)})`;
+      const secondaryAdjText = nearerIsEarlier ? `hoặc muộn hơn ~${laterAdj}’ (${fmt24(laterTime)})` : `hoặc sớm hơn ~${earlierAdj}’ (${fmt24(earlierTime)})`;
+      let statusTag='tag-mid', statusText='Khá';
+      if(cyclesExact < 4){ statusTag='tag-bad'; statusText='Thiếu ngủ (<4 chu kỳ)'; }
+      else if(cyclesExact > 6){ statusTag='tag-mid'; statusText='Dài (>6 chu kỳ)'; }
+      else { statusTag='tag-good'; statusText='Đủ 4–6 chu kỳ'; }
+      let stageImpact='';
+      if(stage.code==='n3'){ stageImpact='Thức dậy giữa N3 (ngủ sâu) – quán tính ngủ cao.'; statusTag='tag-bad'; }
+      else if(stage.code==='rem'){ stageImpact='Thức dậy trong REM – có thể lơ mơ do mơ dở dang.'; if(statusTag!=='tag-bad') statusTag='tag-mid'; }
+      else if(stage.code==='n2'){ stageImpact='Thức dậy giữa N2 – có thể hơi lơ mơ.'; }
+      else if(stage.code==='n1'){ stageImpact='Thức dậy đầu chu kỳ (N1) – dễ tỉnh hơn.'; }
+      else { stageImpact='Thức đúng cuối chu kỳ – tối ưu.'; statusTag='tag-good'; }
+      let adviceLines = [];
+      if(remainder === 0){ adviceLines.push('Giờ dậy khớp cuối chu kỳ. Duy trì giờ đi ngủ/dậy cố định.'); }
+      else { adviceLines.push(`${primaryAdjText} để kết thúc chu kỳ.`); adviceLines.push(`Nếu lịch trình cho phép, ${secondaryAdjText}.`); }
+      if(cyclesExact < 4){ adviceLines.push('Cân nhắc power nap 10–20’ trước 15h để bù tạm.'); }
+      if(cyclesExact > 6){ adviceLines.push('Cố định giờ dậy; tránh kéo dài thời gian trên giường quá nhiều.'); }
+      const row = { id: Date.now(), bed: bedT.getHours()+":"+pad2(bedT.getMinutes()), wake: wakeT.getHours()+":"+pad2(wakeT.getMinutes()), effectiveMin, cyclesRounded, atCycle, stage, statusTag, statusText, stageImpact, adviceLines };
+      const list = JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]'); list.unshift(row); localStorage.setItem(STORAGE_KEY, JSON.stringify(list)); renderRows();
+      document.getElementById('logBedMM').value=''; document.getElementById('logWakeMM').value='';
+    }
+    function removeRow(id){ const list = JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]').filter(x=>x.id!==id); localStorage.setItem(STORAGE_KEY, JSON.stringify(list)); renderRows(); }
+    function renderRows(){
+      const list = JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');
+      const logBodyEl = document.getElementById('logBody');
+      if(list.length===0){ logBodyEl.innerHTML = '<tr><td colspan="7" class="time-help">Chưa có ghi nhận nào. Nhập bên trên và bấm “Ghi nhận”.</td></tr>'; return; }
+      logBodyEl.innerHTML = list.map(r=>`
+        <tr>
+          <td>${r.bed}</td>
+          <td>${r.wake}</td>
+          <td>${minsToHM(r.effectiveMin)}</td>
+          <td>${r.cyclesRounded}</td>
+          <td><span class="stage ${r.stage.color}">${r.stage.name}${r.stage.code!=='end' ? ` · chu kỳ ${r.atCycle}`:''}</span></td>
+          <td>
+            <div class="evalBox">
+              <p><span class="tag ${r.statusTag}">${r.statusText}</span></p>
+              <p>• ${r.stageImpact}</p>
+              ${r.adviceLines.map(a=>`<p>• ${a}</p>`).join('')}
+            </div>
+          </td>
+          <td><button class="button" style="min-width:80px;background:#ffecec;color:#b30000;border:1px solid #ffb3b3" onclick="removeRow(${r.id})">🗑 Xoá</button></td>
+        </tr>
+      `).join('');
+    }
+    attachHMBehavior(document.getElementById('bedHH'), document.getElementById('bedMM'));
+    attachHMBehavior(document.getElementById('wakeHH'), document.getElementById('wakeMM'));
+    attachHMBehavior(document.getElementById('logBedHH'), document.getElementById('logBedMM'));
+    attachHMBehavior(document.getElementById('logWakeHH'), document.getElementById('logWakeMM'));
+    renderRows();
+  </script>
+</body>
+</html>
